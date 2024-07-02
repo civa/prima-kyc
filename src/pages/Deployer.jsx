@@ -111,7 +111,7 @@ const KycPage = ({ users, userData }) => {
     };
 
     const handleReject = (userId) => {
-        toast.success("User rejected successfully");
+        // toast.success("Rej");
         // Optionally, update the user state to reflect the change
     };
 
