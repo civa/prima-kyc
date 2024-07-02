@@ -18,6 +18,7 @@ function App() {
 
   const [app, setApp] = useState(localStorage.getItem("selectedApp") || "banking");
   const [users, setUsers] = useState([]);
+  const [userData, setUserData] = useState([]); // [userData, setUserData
   const [reloadStuffs, setReloadStuffs] = useState(1);
 
 
@@ -34,8 +35,24 @@ function App() {
     }
   }
 
+  async function getUsersData() {
+    try {
+      let { data, status } = await axios.get("https://api.unsxchange.com/admin/all-users", {
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("api_key")
+        }
+      })
+      setUserData(data.users);
+
+      console.log(data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   useEffect(() => {
     getUsers();
+    getUsersData();
   }, [reloadStuffs]);
   return (
     <>
@@ -43,10 +60,10 @@ function App() {
       <Routes>
 
         <Route path="/" element={<Layout app={app} setApp={setApp} reloadStuffs={reloadStuffs} />}>
-          <Route path="/" element={<Login setUsers={setUsers} app={app} setApp={setApp} setReloadStuffs={setReloadStuffs} />}></Route>
+          <Route path="/" element={<Login setUsers={setUsers} app={app} setApp={setApp} setReloadStuffs={setReloadStuffs} userData={userData} />}></Route>
 
           <Route element={<Login setUsers={setUsers} app={app} setApp={setApp} setReloadStuffs={setReloadStuffs} />} path="/login" />
-          <Route path="kyc" element={<Deployer app={app} setApp={setApp} users={users} />}></Route>
+          <Route path="kyc" element={<Deployer app={app} setApp={setApp} users={users} userData={userData} />}></Route>
         </Route>
       </Routes>
     </>
