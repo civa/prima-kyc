@@ -130,6 +130,7 @@ const KycPage = ({ users, userData }) => {
                             <p className="text-xl font-bold mb-2">
                                 {user.personal_information.legal_name}
                             </p>
+                            <p className="mb-2">User_id:  {user.user_id}</p>
                             <p className="mb-2">Occupation:  {user.personal_information.occupation}</p>
                             <p className="mb-2">Current Level: {userData?.find((s) => s?.uuid == user?.user_id)?.kyc_level?.toString()}</p>
                             <p className="mb-2">Reviewed: {user.is_reviewed ? "Yes" : "No"}</p>
