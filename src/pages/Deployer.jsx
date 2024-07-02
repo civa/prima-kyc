@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { toast } from "react-toastify";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import axios from "axios";
 
 // Dummy user data
 const dummyUsers = [
@@ -54,14 +55,59 @@ const KycPage = ({ users, userData }) => {
     const [filterName, setFilterName] = useState("");
     const [filterReviewed, setFilterReviewed] = useState("");
 
-    const handleUpgrade = (userId) => {
-        toast.success("User upgraded successfully");
-        // Optionally, update the user state to reflect the change
-    };
+    const handleUpgrade = async (userId) => {
 
-    const handleDowngrade = (userId) => {
-        toast.success("User downgraded successfully");
-        // Optionally, update the user state to reflect the change
+        try {
+            let body = {
+                uuid: userId,
+                update: "Upgrade"
+            }
+
+            let api = "https://api.unsxchange.com/admin/kyc/edit/update";
+
+            let { data, status } = await axios.post(api, body, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("api_key")
+                }
+            });
+
+            if (status != 200) {
+                toast.error("Failed to upgrade user");
+            } else {
+                toast.success("User upgraded successfully");
+            }
+        } catch (e) {
+            console.log(e)
+            toast.error("Failed to upgrade user");
+        }
+
+    }
+    // Optionally, update the user state to reflect the change
+
+    const handleDowngrade = async (userId) => {
+        try {
+            let body = {
+                uuid: userId,
+                update: "Downgrade"
+            }
+
+            let api = "https://api.unsxchange.com/admin/kyc/edit/update";
+
+            let { data, status } = await axios.post(api, body, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("api_key")
+                }
+            });
+
+            if (status != 200) {
+                toast.error("Failed to upgrade user");
+            } else {
+                toast.success("User downgraded successfully");
+            }
+        } catch (e) {
+            console.log(e)
+            toast.error("Failed to downgrade user");
+        }
     };
 
     const handleReject = (userId) => {
