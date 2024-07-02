@@ -50,8 +50,7 @@ const dummyUsers = [
     },
 ];
 
-const KycPage = () => {
-    const [users, setUsers] = useState(dummyUsers);
+const KycPage = ({ users }) => {
     const [filterName, setFilterName] = useState("");
     const [filterReviewed, setFilterReviewed] = useState("");
 
@@ -72,7 +71,7 @@ const KycPage = () => {
 
     const filteredUsers = users.filter(
         (user) =>
-            user.personal_information.legal_name
+            user?.personal_information?.legal_name
                 .toLowerCase()
                 .includes(filterName.toLowerCase()) &&
             (filterReviewed === ""
@@ -117,7 +116,7 @@ const KycPage = () => {
                             showThumbs={false}  // Disable thumbnails
                             className="rounded w-full max-w-2xl mb-6"
                         >
-                            {user.photos.map((photo, index) => (
+                            {user?.photos?.map((photo, index) => (
                                 <div key={index}>
                                     <img
                                         src={photo}
@@ -138,8 +137,8 @@ const KycPage = () => {
                             <p className="mb-2">
                                 Date of Birth: {new Date(user.personal_information.date_of_birth).toLocaleDateString()}
                             </p>
-                            <p className="mb-2">Document Type: {user.identification_documents.document_type}</p>
-                            <p className="mb-2">Document Number: {user.identification_documents.document_number}</p>
+                            {user.identification_documents && <><p className="mb-2">Document Type: {user.identification_documents?.document_type}</p>
+                                <p className="mb-2">Document Number: {user.identification_documents?.document_number}</p></>}
                         </div>
                         <div className="flex items-center space-x-4 mt-4">
                             <Button
