@@ -195,6 +195,15 @@ const KycPage = ({ users, userData }) => {
                                 Upgrade
                             </Button>
                             <Button
+                                className="bg-blue-600 hover:bg-blue-700 text-white"
+                                onClick={() => {
+                                    let link = `https://console.cloud.google.com/storage/browser/unsxchange_data/${user.user_id}?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&project=uns-technologies`;
+                                    window.open(link)
+                                }}
+                            >
+                                Images
+                            </Button>
+                            <Button
                                 className="bg-yellow-600 hover:bg-yellow-700 text-white"
                                 onClick={() => handleDowngrade(user.user_id)}
                             >
